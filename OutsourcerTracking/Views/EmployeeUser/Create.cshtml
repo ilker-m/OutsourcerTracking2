@@ -1,0 +1,59 @@
+﻿@model OutsourcerTracking.Models.EmployeeUserModels.EmployeeUserCreateViewModel
+@{
+    ViewData["Title"] = "Yeni Çalışan Kullancı Ekle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="horizontal-margin-1">
+    <h1 class="text-center">@ViewData["Title"]</h1>
+
+    @using (Html.BeginForm("Create", "EmployeeUser", FormMethod.Post))
+    {
+        <div class="form-group horizontal-margin-1">
+            <div class="row">
+                <div class="col-md-6">
+                    @Html.TextBoxFor(m => m.FirstName,  new {@class = "form-control", placeholder="Ad"})
+                    @Html.ValidationMessageFor(m => m.FirstName, null, new {@class="text-danger"})
+                    <br />
+                    @Html.TextBoxFor(m => m.LastName,  new {@class = "form-control", placeholder="Soyad"})
+                    @Html.ValidationMessageFor(m => m.LastName, null, new {@class="text-danger"})
+                    <br />
+                    @Html.TextBoxFor(m => m.Email,  new {@class = "form-control", placeholder="Eposta"})
+                    @Html.ValidationMessageFor(m => m.Email, null, new {@class="text-danger"})
+                    <br />
+                    @Html.TextBoxFor(m => m.Phone,  new {@class = "form-control", placeholder="Telefon"})
+                    @Html.ValidationMessageFor(m => m.Phone, null, new {@class="text-danger"})
+                    <br />
+                    @Html.TextBoxFor(m => m.Password,  new {@class = "form-control", placeholder="Şifre", type="password"})
+                    @Html.ValidationMessageFor(m => m.Password, null, new {@class="text-danger"})
+                    <br />
+                    @Html.TextBoxFor(m => m.PasswordConfirm, new {@class = "form-control", placeholder="Şifre Tekrar", type="password"})
+                    @Html.ValidationMessageFor(m => m.PasswordConfirm, null, new {@class="text-danger"})
+                    <br />
+                </div>
+                <div class="col-md-6">
+                    @Html.Label("Rol")
+                    @Html.DropDownListFor(m => m.RoleId, (List<SelectListItem>)ViewBag.roles, new {@class = "form-control"})
+                    @Html.ValidationMessageFor(m => m.RoleId, null, new {@class="text-danger"})
+                    <br />
+                    @Html.Label("Bölüm")
+                    @Html.DropDownListFor(m => m.DeparmentId, (List<SelectListItem>)ViewBag.departments, new {@class = "form-control"})
+                    @Html.ValidationMessageFor(m => m.DeparmentId, null, new {@class="text-danger"})
+                    <br />
+                    @Html.Label("Ünvan")
+                    @Html.DropDownListFor(m => m.TitleId, (List<SelectListItem>)ViewBag.titles, new {@class = "form-control"})
+                    @Html.ValidationMessageFor(m => m.TitleId, null, new {@class="text-danger"})
+                    <br />
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Ekle</button>
+        </div>
+    }
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('.listbox').multiselect({
+            includeSelectAllOption: true
+        });
+    });
+</script>

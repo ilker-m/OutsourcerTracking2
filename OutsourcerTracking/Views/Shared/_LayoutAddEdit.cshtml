@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - OutsourcerTracking</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/OutsourcerTracking.styles.css" asp-append-version="true" />
+
+    <style>
+        body {
+            overflow-x: hidden;
+        }
+
+        .horizontal-padding-0 {
+            padding-left: 0px;
+            padding-right: 0px;
+        }
+
+        .horizontal-padding-1 {
+            padding-left: 0.5em;
+            padding-right: 0.5em;
+        }
+
+        .horizontal-margin-1 {
+            margin-left: 0.5em;
+            margin-right: 0.5em;
+        }
+
+        .vertical-padding-1 {
+            padding-bottom: 0.5em;
+            padding-top: 0.5em;
+        }
+
+        .margin-1 {
+            margin: 0.5em 0.5em 0.5em 0.5em;
+        }
+
+        .padding-1 {
+            padding: 0.5em 0.5em 0.5em 0.5em;
+        }
+
+        a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        @RenderBody()
+    </div>
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2023 - OutsourcerTracking - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js" integrity="sha512-FHZVRMUW9FsXobt+ONiix6Z0tIkxvQfxtCSirkKc5Sb4TKHmqq1dZa8DphF0XqKb3ldLu/wgMa8mT6uXiLlRlw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css" integrity="sha512-mR/b5Y7FRsKqrYZou7uysnOdCIJib/7r5QeJMFvLNHNhtye3xJp1TdJVPLtetkukFn227nKpXD9OjUc09lx97Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,88 @@
+﻿@model OutsourcerTracking.Models.OutsourceHomeModels.OutsourceHomeEditTrackingViewModel
+
+@{
+    ViewData["Title"] = "Üretim Düzelt";
+    Layout = "~/Views/Shared/_LayoutAddEdit.cshtml";
+}
+
+<div class="horizontal-margin-1">
+    <h1 class="text-center">@ViewData["Title"]</h1>
+    @using (Html.BeginForm("EditTracking", "OutsourceHome", FormMethod.Post))
+    {
+        <div class="form-group vertical-padding-1 horizontal-margin-1 d-flex justify-content-center">
+            <div class="col-md-4">
+                <div class="accordion" id="accordionExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">Detaylar</button>
+                        </h2>
+                    </div>
+                    <div id="collapseOne" class="accordion-collapse collapse" aria-labeledby="headingOne" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <label>Takip Id</label>
+                            @Html.TextBoxFor(m => m.Id,  new {@class = "form-control", @readonly = "readonly"})
+                            <label>Dış Kaynak İş Emri Id</label>
+                            @Html.TextBoxFor(m => m.OutsourceWorkOrderId,  new {@class = "form-control", @readonly = "readonly"})
+                            <label>Referans İş Emri</label>
+                            @Html.TextBoxFor(m => m.ReferenceWorkOrder,  new {@class = "form-control", @readonly = "readonly"})
+                            <label>İş Emri</label>
+                            @Html.TextBoxFor(m => m.WorkOrder,  new {@class = "form-control", @readonly = "readonly"})
+                            <label>Sipariş Grubu</label>
+                            @Html.TextBoxFor(m => m.OrderGroup,  new {@class = "form-control",  @readonly = "readonly"})
+                            <label>Stok Kodu</label>
+                            @Html.TextBoxFor(m => m.StockCode,  new {@class = "form-control", @readonly = "readonly"})
+                            <label>Toplam Üretilecek Adet</label>
+                            @Html.TextBoxFor(m => m.WillPoduceTotalAmount,  new {@class = "form-control", @readonly = "readonly"})
+                            <label>Toplam Üretilen Adet</label>
+                            @Html.TextBoxFor(m => m.TotalProducedAmount,  new {@class = "form-control", @readonly = "readonly"})
+                            <label>Üretilecek Adet</label>
+                            @Html.TextBoxFor(m => m.WillProduceAmount,  new {@class = "form-control", @readonly = "readonly"})
+                            <label>Tarih</label>
+                            @Html.TextBoxFor(m => m.Date,  new {@class = "form-control", @readonly = "readonly"})
+                        </div>
+                    </div>
+                </div>
+                <label>Üretilen Adet</label>
+                @Html.TextBoxFor(m => m.Amount, new {@class = "form-control quantityTextBox", placeholder = "Üretilen Miktar"})
+                @Html.ValidationMessageFor(m => m.Amount, null, new {@class="text-danger"})
+                <label>Üretilen Adet Tekrar</label>
+                @Html.TextBoxFor(m => m.AmountAgain, new {@class = "form-control quantityTextBox", placeholder = "Üretilen Miktar Tekrar"})
+                @Html.ValidationMessageFor(m => m.AmountAgain, null, new {@class="text-danger"})
+                <label>Ağırlık (Kg)</label>
+                @Html.TextBoxFor(m => m.Weight_Kg, new {@class = "form-control quantityTextBox", placeholder = "Ağırlık (Kg)"})
+                @Html.ValidationMessageFor(m => m.Weight_Kg, null, new {@class="text-danger"})
+                <label>Ağırlık (Kg) Tekrar</label>
+                @Html.TextBoxFor(m => m.Weight_KgAgain, new {@class = "form-control quantityTextBox", placeholder = "Ağırlık (Kg) Tekrar"})
+                @Html.ValidationMessageFor(m => m.Weight_KgAgain, null, new {@class="text-danger"})
+                <br />
+                @if (TempData["msg"] != null)
+                {
+                    <div class="alert alert-danger" role="alert">@TempData["msg"]</div>
+                }
+                <div class="alert alert-warning" role="alert">30 Dakika Geçtiğinde veya Yeni Üretim Eklendiğinde Düzeltilemez.</div>
+                <button type="submit" class="btn btn-primary">Düzelt</button>
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delteModal">Sil</button>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="modal fade" id="delteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Teslimatı Sil</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Seçilen üretimi silmek istediğinizden emin misiniz?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">İptal</button>
+                <a href="/outsourceHome/DeleteTracking?trackingId=@Model.Id&outsourceWorkOrderId=@Model.OutsourceWorkOrderId"><button type="button" class="btn btn-danger">Sil</button></a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+﻿Scaffold İşlemleri:
+ 1 - Tersine mühendislik
+	Scaffold-DbContext 'Server=(localdb)\MSSQLLocalDB; Database=OutsourcerTrackingWS; Trusted_Connection=True;' Microsoft.EntityFrameworkCore.SqlServer
+ 2 - Tablo Belirleme
+	Scaffold-DbContext 'Server=(localdb)\MSSQLLocalDB; Database=OutsourcerTrackingWS; Trusted_Connection=True;' Microsoft.EntityFrameworkCore.SqlServer -Tables AddressesWS, AlkWorkOrdersWS, OutsourcesWS, OutsourceWorkOrdersWS
+ 3 - DbContext adını belirleme
+	Scaffold-DbContext 'Server=(localdb)\MSSQLLocalDB; Database=OutsourcerTrackingWS; Trusted_Connection=True;' Microsoft.EntityFrameworkCore.SqlServer -Context ApplicationDbContext
+ 4 - Path ve Namespace Belirtme
+	Scaffold-DbContext 'Server=(localdb)\MSSQLLocalDB; Database=OutsourcerTrackingWS; Trusted_Connection=True;' Microsoft.EntityFrameworkCore.SqlServer -ContextDir Contexts -OutputDir Entities
+	Scaffold-DbContext 'Server=(localdb)\MSSQLLocalDB; Database=OutsourcerTrackingWS; Trusted_Connection=True;' Microsoft.EntityFrameworkCore.SqlServer -ContextDir Contexts -OutputDir Entities -Namespace Entities -ContextNamespace Contexts
+
+Aşağıdaki komut örnek olarak kullanılmıştır
+ Scaffold-DbContext 'Server=(localdb)\MSSQLLocalDB; Database=OutsourcerTrackingWS; Trusted_Connection=True;' Microsoft.EntityFrameworkCore.SqlServer -Tables NTS_WM_ISEMRITRA_V -Context ApplicationContext -ContextDir DataAccess/Scaffold/Contexts -OutputDir DataAccess/Scaffold/Entities
+
+Database'de güncelleme durumda => Manuel olarak eklenebilir veya Scaffold üzerinden yeniden yapılandırma yapılabilir. Var olan bir yapının üzerine yeniden scaffold yapılacak ise scaffold komutlarının ardına -Force ibarisi konulmalıdır.
+

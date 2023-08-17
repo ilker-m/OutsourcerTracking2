@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<head>
+<style>
+    #body{
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+    #message {
+        padding-top: 0.01em;
+        padding-left: 0.05em;
+        padding-right: 0.05em;
+        padding-bottom: 0.01em;
+        color: antiquewhite;
+        text-align: center;
+        background-color: {{color}};
+    }
+    #tableDiv{
+        display: flex; 
+        justify-content: center;
+        /*border: 1px solid black;*/
+    }
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+    #info{
+        text-align: left;
+    }
+    th, td {
+        text-align: left;
+        border: 1px solid black;
+        padding: 5px;
+    }
+</style>
+</head>
+<body>
+<div id="body">
+    <div>
+        <div id="message">
+            <h2>{{operation}}</h2>
+            <p>{{outsourceName}},  referans iş emri {{referenceWorkOrder}} olan ve {{workOrder}} no'lu iş emrinden toplamda {{totalProducedQuantity}} adet üretti. {{receivableQuantity}} adet teslim alınabilir durumdadır.</p>
+        </div>
+        <div id="tableDiv">
+            <table>
+                <tr>
+                    <th>Referans İş Emri</th>
+                    <td>{{referenceWorkOrder}}</td>
+                    <th>İş Emri</th>
+                    <td>{{workOrder}}</td>
+                </tr>
+                <tr>
+                    <th>Sipariş Grubu</th>
+                    <td>{{orderGroup}}</td>
+                    <th>Stok Kodu</th>
+                    <td>{{stockCode}}</td>
+                </tr>
+                <tr>
+                    <th>Dış Kaynak</th>
+                    <td>{{outsourceName}}</td>
+                    <th>Durum</th>
+                    <td>{{situationName}}</td>
+                </tr>
+                <tr>
+                    <th>Toplam Üretilecek Adet</th>
+                    <td>{{quantity}}</td>
+                    <th>Toplam Üretilen Adet</th>
+                    <td>{{totalProducedQuantity}}</td>
+                </tr>
+                <tr>
+                    <th>Üretilecek Adet</th>
+                    <td>{{willProduceQuantity}}</td>
+                    <th>Toplam Teslim Alınan Adet</th>
+                    <td>{{totalReceivedQuantrity}}</td>
+                </tr>
+                <tr>
+                    <th>Teslim Alınacak Adet</th>
+                    <td>{{willReceiveQuantity}}</td>
+                    <th>Teslim Alınabilir Adet</th>
+                    <td>{{receivableQuantity}}</td>
+                </tr>
+            </table>
+            <!--<div style="overflow-x: auto;">
+                <table>
+                    <tr style="background-color: gainsboro;">
+                        <th>Referans İş Emri</th>
+                        <th>İş Emri</th>
+                        <th>Sipariş Grubu</th>
+                        <th>Stok Kodu</th>
+                        <th>Dış Kaynak</th>
+                        <th>Durum</th>
+                        <th>Toplam Üretilecek Adet</th>
+                        <th>Toplam Üretilen Adet</th>
+                        <th>Üretilecek Adet</th>
+                        <th>Toplam Teslim Alınan Adet</th>
+                        <th>Teslim Alınacak Adet</th>
+                        <th>Teslim Alınabilir Adet</th>
+                    </tr>
+                    <tr style="background-color: whitesmoke; text-align: center;">
+                        
+            
+                        
+                        
+                        
+                        
+                    </tr>
+                </table>
+            </div>-->
+        </div>
+        <div id="info">Bu email Fasoncu Takip uygulasından gönderilmiştir.</div>
+    </div>
+</div>
+</body>
+</html>

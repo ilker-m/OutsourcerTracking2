@@ -1,0 +1,68 @@
+﻿@model OutsourcerTracking.Models.EmployeeHomeModels.EmployeeHomeAddReceiveViewModel
+
+@{
+    ViewData["Title"] = "Teslimat Ekle";
+    Layout = "~/Views/Shared/_LayoutAddEdit.cshtml";
+}
+
+<div class="horizontal-margin-1">
+    <h1 class="text-center">@ViewData["Title"]</h1>
+    @using (Html.BeginForm("AddReceive", "EmployeeHome", FormMethod.Post))
+    {
+
+        <div class="form-group vertical-padding-1 horizontal-margin-1 d-flex justify-content-center">
+            <div class="col-md-4">
+                <div class="accordion" id="accordionExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">Detaylar</button>
+                        </h2>
+                    </div>
+                </div>
+                <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <label>Dış Kaynak İş Emri Id</label>
+                        @Html.TextBoxFor(m => m.OutsourceWorkOrderId,  new {@class = "form-control", @readonly = "readonly"})
+                        <label>Referans İş Emri</label>
+                        @Html.TextBoxFor(m => m.ReferenceWorkOrder,  new {@class = "form-control", @readonly = "readonly"})
+                        <label>İş Emri</label>
+                        @Html.TextBoxFor(m => m.WorkOrderNo,  new {@class = "form-control", @readonly = "readonly"})
+                        <label>Sipariş Grubu</label>
+                        @Html.TextBoxFor(m => m.OrderGroup,  new {@class = "form-control",  @readonly = "readonly"})
+                        <label>Stok Kodu</label>
+                        @Html.TextBoxFor(m => m.StockCode,  new {@class = "form-control", @readonly = "readonly"})
+                        <label>Toplam Üretilecek Adet</label>
+                        @Html.TextBoxFor(m => m.WillProduceTotalAmount,  new {@class = "form-control", @readonly = "readonly"})
+                        <label>Toplam Üretilen Adet</label>
+                        @Html.TextBoxFor(m => m.TotalProducedAmount,  new {@class = "form-control", @readonly = "readonly"})
+                        <label>Toplam Teslim Alınan Adet</label>
+                        @Html.TextBoxFor(m => m.TotalReceivedAmount,  new {@class = "form-control", @readonly = "readonly"})
+                        <label>Teslim Alınabilir Adet</label>
+                        @Html.TextBoxFor(m => m.ReceivableAmount,  new {@class = "form-control", @readonly = "readonly"})
+                        <label>Tarih</label>
+                        @Html.TextBoxFor(m => m.Date,  new {@class = "form-control", @readonly = "readonly"})
+                    </div>
+                </div>
+                <label>Teslim Alan Kişi</label>
+                @Html.DropDownListFor(m => m.EmployeeUserId, (List<SelectListItem>)ViewBag.employees, new {@class = "form-control"})
+                @Html.ValidationMessageFor(m => m.EmployeeUserId, null, new {@class="text-danger"})
+                <label>Teslim Alınan Adet</label>
+                @Html.TextBoxFor(m => m.Amount, new {@class = "form-control quantityTextBox", placeholder = "Teslim Alınan Adet"})
+                @Html.ValidationMessageFor(m => m.Amount, null, new {@class="text-danger"})
+                <label>Teslim Alınan Adet Tekrar</label>
+                @Html.TextBoxFor(m => m.AmountAgain, new {@class = "form-control quantityTextBox", placeholder = "Teslim Alınan Adet"})
+                @Html.ValidationMessageFor(m => m.AmountAgain, null, new {@class="text-danger"})
+                <br />
+                @if (TempData["msg"] != null)
+                {
+                    <div class="alert alert-danger" role="alert">@TempData["msg"]</div>
+                }
+                <div class="alert alert-warning" role="alert">30 Dakika Geçtiğinde veya Yeni Üretim Eklendiğinde Düzeltilemez.</div>
+                <button type="submit" class="btn btn-primary">Kaydet</button>
+            </div>
+        </div>
+    }
+</div>
+<script>
+    [...document.getElementsByClassName("quantityTextBox")].forEach((item, index) => { console.log("içerde"); item.value = ""; });
+</script>

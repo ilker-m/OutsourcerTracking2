@@ -1,0 +1,256 @@
+﻿@using OutsourcerTracking.Labels.DataAccess.Enums;
+@model OutsourcerTracking.Models.OutsourceHomeModels.OutsourceHomeListViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="horizontal-margin-1">
+    <h1 class="text-center">@ViewData["Title"]</h1>
+    <hr />
+    <div class="horizontal-margin-1">
+        <table id="myTable" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Sipariş Grubu</th>
+                    <th>Stok Kodu</th>
+                    <th>Referans İş Emri</th>
+                    <th>Dış Kaynak</th>
+                    <th>Durum</th>
+                    <th>Renk Kodu</th>
+                    <th>Renk Adı</th>
+                    <th>İş Emri</th>
+                    <th>Teslim Tarihi</th>
+                    @if (User.IsInRole("Outsource User"))
+                    {
+                        <th>Üretim</th>
+                        <th title="Yeni Kayıt Eklendikten ve 30 Dakika Geçtikten Sonra Düzenleme Yapılamaz.">Düzeltme</th>
+                    }
+                    <th title="Toplam Üretilecek Adet">Top. Üretilecek Ad.</th>
+                    <th title="Toplam Üretilen Adet">Top. Üretilen Ad.</th>
+                    <th title="Üretilecek Adet">Üretilecek Ad.</th>
+                    <th title="Toplam Teslim Alınan Adet">Top. Tes. Alınan Ad.</th>
+                    <th title="Teslim Alınacak Adet">Tes. Alınacak Ad.</th>
+                    <th title="Teslim Alınabilir Adet">Tes. Alınabilir Ad.</th>
+                    <th>Tamamlama</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.OutsourceHomeViewModels)
+                {
+                    decimal willProduceAmount = item.Amount - item.TotalProducedAmount;
+                    decimal willReceiveAmount = item.Amount - item.TotalReceivedAmount;
+                    decimal receivableAmount = item.TotalProducedAmount - item.TotalReceivedAmount;
+                    <tr>
+                        <td>@item.OrderGroup</td>
+                        <td>@item.StockCode</td>
+                        <td>@item.ReferenceWorkOrder</td>
+                        <td>@item.OutsourceName</td>
+                        <td>@item.SituationName</td>
+                        <td>@item.ColorCode</td>
+                        <td>@item.ColorName</td>
+                        <td>@item.WorkOrderNo</td>
+                        <td>@item.Deadline</td>
+                        @if (User.IsInRole("Outsource User"))
+                        {
+                            <td>
+                                <a href="/outsourcehome/addtracking?outsourceWorkOrderId=@item.OutsourceWorkOrderId">
+                                    <button type="button" class="btn btn-success">Ekle</button>
+                                </a>
+                            </td>
+                            @if (item.IsTrackingEditable)
+                            {
+                                <td>
+                                    <a href="/outsourcehome/edittracking?outsourceWorkOrderId=@item.OutsourceWorkOrderId">
+                                        <button type="button" class="btn btn-primary">Düzelt</button>
+                                    </a>
+                                </td>
+                            }
+                            else
+                            {
+                                <td>Düzeltilemez!</td>
+                            }
+                        }
+                        <td>@item.Amount</td>
+                        <td>
+                            <a onclick="fillProduceModal(@item.OutsourceWorkOrderId)" href="#" data-bs-toggle="modal" data-bs-target="#detailModal">@item.TotalProducedAmount</a>
+                        </td>
+                        <td>@willProduceAmount</td>
+                        <td>
+                            <a onclick="fillReceiveModal(@item.OutsourceWorkOrderId)" href="#" data-bs-toggle="modal" data-bs-target="#detailModal">@item.TotalReceivedAmount</a>
+                        </td>
+                        <td>@willReceiveAmount</td>
+                        <td>@receivableAmount</td>
+                        @if (willProduceAmount <= 0 && item.SituationId != (int)SituationEnum.Completed)
+                        {
+                            <td>
+                                
+                                <a href="#">
+                                    <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                        Tamamla
+                                    </button>
+                                </a>
+                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Kullanıcıyı Sil</h5>
+                                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                "@item.WorkOrderNo" numaralı işi tamamlamak istediğinizden emin misiniz?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">İptal</button>
+                                                <a href="/outsourcehome/MakeCompleted?outsourceWorkOrderId=@item.OutsourceWorkOrderId">
+                                                    <button type="button" class="btn btn-success">Tamamla</button>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>Tamamlanamaz!</td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailModalLabel">Dış Kaynak Detay</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="detailModalBody" class="modal-body" style="text-align:center;">
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.css" />
+<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.js"></script>
+<script>
+    var detailModalLabel = document.getElementById("detailModalLabel");
+    var detailModalBody = document.getElementById("detailModalBody");
+    var js = jQuery.noConflict(true);
+    js(document).ready(function () {
+        var filterColumnIndexs = [0, 1, 2, 3, 4];
+        var table = js('#myTable').DataTable({
+            language: {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Turkish.json"
+            },
+            initComplete: function () {
+                let i = 0;
+                this.api().columns().every(function () {
+                    if (filterColumnIndexs.some((element) => element == i)) {
+                        var column = this;
+                        var select = js('<select><option value="">Hepsi</option></select>')
+                            .appendTo(js(column.header()))
+                            .on('change', function () {
+                                var val = js.fn.dataTable.util.escapeRegex($(this).val());
+                                column.search(val ? '^' + val + '$' : '', true, false).draw();
+                            });
+                        column.data().unique().sort().each(function (d) {
+                            select.append('<option value="' + d + '">' + d + '</option>');
+                        });
+                    }
+                    i++;
+                });
+
+            },
+            scrollX: true,
+            ordering: false,
+        });
+        setTimeout(function () {
+            table.columns.adjust();
+        }, 100);
+    });
+    function fillReceiveModal(outsourceWorkOrderId) {
+        detailModalLabel.innerHTML = "Teslimat Detay";
+        js.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "/outsourcehome/GetReceivesDetail?outsourceWorkOrderId=" + outsourceWorkOrderId,
+            success: (data) => {
+                //console.log(data);
+                if (data.length === 0) {
+                    detailModalBody.innerHTML = "Herhangi bir veri bulunamadı.";
+                } else {
+                    let html = "";
+                    let titles = ["Traih ve Saat", "Miktar", "Onay Tarihi ve Saati"];
+                    html += createTableHeader(titles);
+                    data.forEach((item, index) => {
+                        let datas = [item.date.substring(0, 10) + " " + item.date.substring(11, 19), item.amount, item.approvedDate ? item.approvedDate.substring(0, 10) + " " + item.approvedDate.substring(11, 19) : "-"];
+                        html += createTableBody(datas);
+                    });
+                    html += createTableFooter();
+                    detailModalBody.innerHTML = html;
+                }
+            }
+        });
+    }
+    function fillProduceModal(outsourceWorkOrderId) {
+        detailModalLabel.innerHTML = "Üretim Detay";
+        js.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "/outsourcehome/GetTrackingsDetail?outsourceWorkOrderId=" + outsourceWorkOrderId,
+            success: (data) => {
+                //console.log(data);
+                if (data.length === 0) {
+                    detailModalBody.innerHTML = "Herhangi bir veri bulunamadı.";
+                } else {
+                    let html = "";
+                    let titles = ["Tarih ve Saat", "Miktar", "Ağırlık (Kg)"];
+                    html += createTableHeader(titles);
+                    data.forEach((item, index) => {
+                        let datas = [item.date.substring(0, 10) + " " + item.date.substring(11, 19), item.amount, item.weight_Kg];
+                        html += createTableBody(datas);
+                    });
+                    html += createTableFooter();
+                    detailModalBody.innerHTML = html;
+                }
+            }
+        });
+    }
+    function createTableHeader(titles){
+        let headers = `<table style="font-family: arial, sans-serif; border-collapse: collapse; width: 100%;"><tr>`;
+        titles.forEach((item, index) => {
+            headers += `<th>${item}</th>`;
+        });
+        headers += "</tr>";
+        return headers;
+    }
+    function createTableBody(datas){
+        let body = "<tr>"
+        datas.forEach((item, index) => {
+            body += `<td>${item}</td>`;
+        });
+        body += "</tr>";
+        return body;
+    }
+    function createTableFooter(footers){
+        return "</table>";
+    }
+</script>
+
+
+
+
+

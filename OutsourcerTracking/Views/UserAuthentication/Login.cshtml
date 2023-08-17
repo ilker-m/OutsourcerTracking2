@@ -1,0 +1,26 @@
+﻿@model OutsourcerTracking.Models.UserAuthenticationModels.UserAuthenticationLoginViewModel;
+@{
+    ViewBag.Title = "Giriş Yap";
+    Layout = "~/Views/Shared/_LayoutUserAuthentication.cshtml";
+}
+<div>
+    @if (TempData["msg"] != null)
+    {
+        <div class="alert alert-danger" role="alert">@TempData["msg"]</div>
+    }
+    @using (Html.BeginForm("Login", "UserAuthentication", FormMethod.Post))
+    {
+        <div class="form-group vertical-padding-1">
+            @Html.TextBoxFor(m => m.Email,  new {@class = "form-control", placeholder="Email"})
+            @Html.ValidationMessageFor(m => m.Email, null, new {@class="text-danger"})
+            <br />
+            @Html.TextBoxFor(m => m.Password,  new {@class = "form-control", placeholder="Şifre", type="password"})
+            @Html.ValidationMessageFor(m => m.Password, null, new {@class="text-danger"})
+            <br />
+            @Html.ActionLink("Şifremi Unuttum", "ForgetPassword","UserAuthentication")
+
+            <br>
+            <button type="submit" class="btn btn-primary">Giriş</button>
+        </div>
+    }
+</div>

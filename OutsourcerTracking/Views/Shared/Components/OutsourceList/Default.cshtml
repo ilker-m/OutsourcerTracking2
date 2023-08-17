@@ -1,0 +1,10 @@
+﻿@model OutsourcerTracking.Models.ViewComponentModels.OutsourceListViewComponentModel
+
+<div class="list-group list-group-flush">
+    @foreach (var outsource in Model.Outsources)
+    {
+        <a href="/outsourcehome/index/@outsource.Id" class="list-group-item">@outsource.MachineName</a>
+    }
+</div>
+
+
