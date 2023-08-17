@@ -11,9 +11,6 @@ namespace OutsourcerTracking.Controllers
     public class UserAuthenticationController : Controller
     {
         private readonly IUserAuthenticationService _userAuthenticationService;
-
-
-
         public UserAuthenticationController(IUserAuthenticationService userAuthenticationService)
         {
             _userAuthenticationService = userAuthenticationService;
@@ -64,11 +61,6 @@ namespace OutsourcerTracking.Controllers
         }
         public async Task<IActionResult> ForgetPassword()
         {
-
-
-
-
-
             return View();
         }
 
@@ -82,8 +74,7 @@ namespace OutsourcerTracking.Controllers
             var result = await _userAuthenticationService.CheckEmail(forgetPasswordModel.Email);
             if (result.Success)
             {
-
-              _userAuthenticationService.RecordKeyCode(forgetPasswordModel.Email);
+                _userAuthenticationService.RecordKeyCode(forgetPasswordModel.Email);
                 return RedirectToAction(nameof(NewPassword));
 
             }
@@ -107,12 +98,10 @@ namespace OutsourcerTracking.Controllers
             }
             else
             {
-
-               var result= _userAuthenticationService.ChangePasswordWithKeyCode(newPasswordModel.key, newPasswordModel.newpassword);
+                var result= _userAuthenticationService.ChangePasswordWithKeyCode(newPasswordModel.key, newPasswordModel.newpassword);
                 if (result.Success)
                 {
                     return RedirectToAction(nameof(Login));
-
                 }
                 else
                 {
@@ -121,10 +110,6 @@ namespace OutsourcerTracking.Controllers
                 }
                
             }
-
-
-
-
         }
     }
 }

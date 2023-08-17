@@ -42,14 +42,12 @@ namespace OutsourcerTracking.Labels.Business.Concrete
                 user.PasswordHash = passwordHasher.HashPassword(user, password);
                 user.IsFirst = false;
                 _userDal.Update(user);
-
                 return new ResultViewModel<User> { Success = true };
             }
             else
             {
                 return new ResultViewModel<User> { Success = false,Message="Güvenlik Kodu Geçersiz" };
             }
-    
         }
 
         public async Task<ResultViewModel<User>> CheckAPIUserAsync(string base64)
@@ -117,27 +115,9 @@ namespace OutsourcerTracking.Labels.Business.Concrete
         public void RecordKeyCode(string email)
         {
             var user = _userDal.Get(u => u.Email == email);
-
             user.KeyCode = Guid.NewGuid().ToString().Substring(0,6);
             _userDal.Update(user);
-
-
             new EmailManager().SendEmailForNewPasswordLink(email, user.KeyCode);
-
-
-
-            //fazla yazıldı
-            //if (user == null)
-            //{
-            //    return new ResultViewModel<User> { Success = false, Message = "Kullanıcı hesabı bulunamadı." };
-
-            //}
-            //else
-            //{
-            //    return new ResultViewModel<User> { Success = true, Message = "Kullanıcı hesabı bulunamadı." };
-            //}
-
-
         }
     }
 }

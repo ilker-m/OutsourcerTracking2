@@ -36,12 +36,7 @@ namespace OutsourcerTracking.Labels.Business.Concrete
         }
         public void SendEmailForNewPasswordLink(string mail,string KeyCode)
         {
-      
-
-
-            SendEmails(KeyCode, "Onay Kodu",mail);
-
-
+            SendEmails(KeyCode, "Onay Kodu", mail);
         }
         private string GetHtmlTextWithData(int outsourceWorkOrderId)
         {
